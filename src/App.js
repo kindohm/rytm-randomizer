@@ -9,7 +9,7 @@ const App = () => {
   const [deviceOptions, setDeviceOptions] = useState([]);
   const [device, setDevice] = useState(null);
   const [showAdvanced, setShowAdvanced] = useState(false);
-
+  const [intensity, setIntensity] = useState(0.333);
   const [pages, setPages] = useState(defaultPages);
 
   useEffect(() => {
@@ -41,19 +41,27 @@ const App = () => {
     return Math.floor(Math.random() * (max - min + 1) + min);
   };
 
+  const randomizeParam = (absoluteMin, absoluteMax, currentValue) => {
+    const min = currentValue - (currentValue - absoluteMin) * intensity;
+    const max = currentValue + (absoluteMax - currentValue) * intensity;
+    const value = getRandomIntInclusive(min, max);
+    return value;
+  };
+
   const handleRandomize = () => {
     const channel = 1;
     const newPages = pages.map((page) => {
       const { params, randomize } = page;
       if (!randomize) return page;
       const newParams = params.map((param) => {
-        const { min = 0, max = 127, randomize } = param;
+        const { min = 0, max = 127, randomize, value = 64 } = param;
         if (!randomize) return param;
-        const value = getRandomIntInclusive(min, max);
-        return { ...param, value };
+        const newValue = randomizeParam(min, max, value);
+        return { ...param, value: newValue };
       });
       return { ...page, params: newParams };
     });
+    console.log(newPages);
     setPages(newPages);
 
     if (!device) return;
@@ -100,6 +108,10 @@ const App = () => {
     setShowAdvanced(!showAdvanced);
   };
 
+  const handleIntensityChange = (e) => {
+    setIntensity(parseFloat(e.target.value));
+  };
+
   return (
     <div>
       <div className="container">
@@ -116,6 +128,15 @@ const App = () => {
       </div>
 
       <div className="container">
+        <p>
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            onChange={handleIntensityChange}
+          />
+        </p>
         <button className="randomizeButton" onClick={handleRandomize}>
           Randomize
         </button>
