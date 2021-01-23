@@ -8,6 +8,7 @@ const App = () => {
   const [devices, setDevices] = useState([]);
   const [deviceOptions, setDeviceOptions] = useState([]);
   const [device, setDevice] = useState(null);
+  const [showAdvanced, setShowAdvanced] = useState(false);
 
   const [pages, setPages] = useState(defaultPages);
 
@@ -95,6 +96,10 @@ const App = () => {
     setPages(newPages);
   };
 
+  const handleAdvancedToggle = () => {
+    setShowAdvanced(!showAdvanced);
+  };
+
   return (
     <div>
       <div className="container">
@@ -116,15 +121,23 @@ const App = () => {
         </button>
       </div>
 
-      <div className="container pagesContainer">
-        <Pages
-          pages={pages}
-          onParamToggled={handleParamToggled}
-          handlePageToggled={(pageName, enabled) =>
-            handlePageToggled(pageName, enabled)
-          }
-        />
+      <div className="container">
+        <button className="linkButton" onClick={handleAdvancedToggle}>
+          {showAdvanced ? 'Hide advanced options' : 'Show advanced options'}
+        </button>
       </div>
+
+      {showAdvanced ? (
+        <div className="container pagesContainer">
+          <Pages
+            pages={pages}
+            onParamToggled={handleParamToggled}
+            handlePageToggled={(pageName, enabled) =>
+              handlePageToggled(pageName, enabled)
+            }
+          />
+        </div>
+      ) : null}
     </div>
   );
 };
