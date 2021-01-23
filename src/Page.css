@@ -1,0 +1,16 @@
+.page {
+  border: solid 3px #2196f3;
+  border-radius: 10px;
+  margin: 0px 10px 10px 0px;
+  padding: 0px 10px 10px 10px;
+  flex-grow: 1;
+  width: 150px;
+}
+
+.paramList {
+  padding-left: 0px;
+}
+
+.paramList li {
+  list-style-type: none;
+}

@@ -2,8 +2,7 @@ import Page from './Page';
 
 const Pages = ({ pages, handlePageToggled, onParamToggled }) => {
   return (
-    <div>
-      {pages.map((page) => {
+      pages.map((page) => {
         return (
           <Page
             key={page.name}
@@ -12,8 +11,7 @@ const Pages = ({ pages, handlePageToggled, onParamToggled }) => {
             onParamToggled={onParamToggled}
           ></Page>
         );
-      })}
-    </div>
+      })
   );
 };
 

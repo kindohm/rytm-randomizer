@@ -2,6 +2,7 @@ import * as WebMidi from 'webmidi';
 import React, { useEffect, useState } from 'react';
 import Pages from './Pages';
 import defaultPages from './defaultPages';
+import './App.css';
 
 const App = () => {
   const [devices, setDevices] = useState([]);
@@ -69,7 +70,11 @@ const App = () => {
 
   const handlePageToggled = (pageName, enabled) => {
     const foundPage = pages.find((p) => p.name === pageName);
-    const newPage = { ...foundPage, randomize: enabled };
+    const newParams = foundPage.params.map((param) => ({
+      ...param,
+      disabled: !enabled,
+    }));
+    const newPage = { ...foundPage, params: newParams, randomize: enabled };
     const newPages = pages.map((page) =>
       page.name === pageName ? newPage : page
     );
@@ -77,7 +82,7 @@ const App = () => {
   };
 
   const handleParamToggled = (pageName, param, enabled) => {
-    console.log("pageName", pageName);
+    console.log('pageName', pageName);
     const foundPage = pages.find((p) => p.name === pageName);
     const { params } = foundPage;
     const foundParam = params.find((p) => p.name === param.name);
@@ -92,22 +97,26 @@ const App = () => {
 
   return (
     <div>
-      <p>Select your RYTM MIDI device:</p>
-      <select onChange={handleDeviceChange}>
-        {deviceOptions.map((device) => {
-          return (
-            <option key={device.name} value={device.value}>
-              {device.name}
-            </option>
-          );
-        })}
-      </select>
-
-      <div>
-        <button onClick={handleRandomize}>Randomize</button>
+      <div className="container">
+        <p>Select your RYTM MIDI device:</p>
+        <select onChange={handleDeviceChange} className="deviceSelect">
+          {deviceOptions.map((device) => {
+            return (
+              <option key={device.name} value={device.value}>
+                {device.name}
+              </option>
+            );
+          })}
+        </select>
       </div>
 
-      <div>
+      <div className="container">
+        <button className="randomizeButton" onClick={handleRandomize}>
+          Randomize
+        </button>
+      </div>
+
+      <div className="container pagesContainer">
         <Pages
           pages={pages}
           onParamToggled={handleParamToggled}
