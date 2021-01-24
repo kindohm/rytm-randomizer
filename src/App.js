@@ -8,6 +8,8 @@ import NotSupported from './NotSupported';
 import Randomize from './Randomize';
 import './App.css';
 
+const CC_WAIT = 5;
+
 const getInitialChannels = (pages) => {
   const nonFxPages = pages
     ? pages.filter((p) => !p.validChannels || !p.validChannels.includes(13))
@@ -139,7 +141,7 @@ const App = () => {
           if (index < params.length - 1) {
             setTimeout(() => {
               sendCC(params, index + 1);
-            }, 1);
+            }, CC_WAIT);
           }
         };
 
