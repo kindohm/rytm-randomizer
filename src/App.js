@@ -2,6 +2,7 @@ import * as WebMidi from 'webmidi';
 import React, { useEffect, useState } from 'react';
 import Pages from './Pages';
 import defaultPages from './defaultPages';
+import Footer from './Footer';
 import './App.css';
 
 const App = () => {
@@ -9,7 +10,7 @@ const App = () => {
   const [deviceOptions, setDeviceOptions] = useState([]);
   const [device, setDevice] = useState(null);
   const [showAdvanced, setShowAdvanced] = useState(false);
-
+  const [intensity, setIntensity] = useState(0.666);
   const [pages, setPages] = useState(defaultPages);
 
   useEffect(() => {
@@ -41,19 +42,27 @@ const App = () => {
     return Math.floor(Math.random() * (max - min + 1) + min);
   };
 
+  const randomizeParam = (absoluteMin, absoluteMax, currentValue) => {
+    const min = currentValue - (currentValue - absoluteMin) * intensity;
+    const max = currentValue + (absoluteMax - currentValue) * intensity;
+    const value = getRandomIntInclusive(min, max);
+    return value;
+  };
+
   const handleRandomize = () => {
     const channel = 1;
     const newPages = pages.map((page) => {
       const { params, randomize } = page;
       if (!randomize) return page;
       const newParams = params.map((param) => {
-        const { min = 0, max = 127, randomize } = param;
+        const { min = 0, max = 127, randomize, value = 64 } = param;
         if (!randomize) return param;
-        const value = getRandomIntInclusive(min, max);
-        return { ...param, value };
+        const newValue = randomizeParam(min, max, value);
+        return { ...param, value: newValue };
       });
       return { ...page, params: newParams };
     });
+
     setPages(newPages);
 
     if (!device) return;
@@ -83,7 +92,6 @@ const App = () => {
   };
 
   const handleParamToggled = (pageName, param, enabled) => {
-    console.log('pageName', pageName);
     const foundPage = pages.find((p) => p.name === pageName);
     const { params } = foundPage;
     const foundParam = params.find((p) => p.name === param.name);
@@ -100,8 +108,13 @@ const App = () => {
     setShowAdvanced(!showAdvanced);
   };
 
+  const handleIntensityChange = (e) => {
+    setIntensity(parseFloat(e.target.value));
+  };
+
   return (
     <div>
+      <h1>Elektron Analog RYTM Randoimzer</h1>
       <div className="container">
         <p>Select your RYTM MIDI device:</p>
         <select onChange={handleDeviceChange} className="deviceSelect">
@@ -116,6 +129,17 @@ const App = () => {
       </div>
 
       <div className="container">
+        <p>Randomization complexity:</p>
+        <p>
+          <input
+            type="range"
+            value={intensity}
+            min="0"
+            max="1"
+            step="0.01"
+            onChange={handleIntensityChange}
+          />
+        </p>
         <button className="randomizeButton" onClick={handleRandomize}>
           Randomize
         </button>
@@ -138,6 +162,8 @@ const App = () => {
           />
         </div>
       ) : null}
+
+      <Footer></Footer>
     </div>
   );
 };
