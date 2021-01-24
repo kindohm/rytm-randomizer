@@ -8,11 +8,21 @@ import NotSupported from './NotSupported';
 import Randomize from './Randomize';
 import './App.css';
 
+const getInitialChannels = (pages) => {
+  return [...Array(12)].map((x, i) => {
+    return {
+      number: i + 1,
+      pages,
+    };
+  });
+};
+
 const App = () => {
   const [device, setDevice] = useState(null);
   const [complexity, setComplexity] = useState(0.666);
   const [pages, setPages] = useState(defaultPages);
   const [notSupported, setNotSupported] = useState(false);
+  const [channels, setChannels] = useState(getInitialChannels(defaultPages));
 
   const handleDeviceChange = (newDevice) => {
     setDevice(newDevice);
@@ -32,30 +42,61 @@ const App = () => {
   };
 
   const handleRandomize = () => {
-    const channel = 1;
-    const newPages = pages.map((page) => {
-      const { params, randomize } = page;
-      if (!randomize) return page;
-      const newParams = params.map((param) => {
-        const { min = 0, max = 127, randomize, value = 64 } = param;
-        if (!randomize) return param;
-        const newValue = randomizeParam(min, max, value);
-        return { ...param, value: newValue };
+    const newChannels = channels.map((channel) => {
+      const channelPages = channel.pages;
+      const newPages = channelPages.map((channelPage) => {
+        const pageConfig = pages.find((p) => p.name === channelPage.name);
+        const randomizePage = pageConfig.randomize;
+        if (!randomizePage) return channelPage;
+        const channelPageParams = channelPage.params;
+        const pageConfigParams = pageConfig.params;
+
+        const newChannelParams = channelPageParams.map((param) => {
+          const { min = 0, max = 127, value = 64 } = param;
+          const paramConfig = pageConfigParams.find(
+            (p) => p.name === param.name
+          );
+          const shouldRandomizeParam = paramConfig.randomize;
+          if (!shouldRandomizeParam) return param;
+          const newValue = randomizeParam(min, max, value);
+          return { ...param, value: newValue };
+        });
+        return { ...channelPage, params: newChannelParams };
       });
-      return { ...page, params: newParams };
+
+      return { ...channel, pages: newPages };
     });
 
-    setPages(newPages);
+    // const newPages = pages.map((page) => {
+    //   const { params, randomize } = page;
+    //   if (!randomize) return page;
+    //   const newParams = params.map((param) => {
+    //     const { min = 0, max = 127, randomize, value = 64 } = param;
+    //     if (!randomize) return param;
+    //     const newValue = randomizeParam(min, max, value);
+    //     return { ...param, value: newValue };
+    //   });
+    //   return { ...page, params: newParams };
+    // });
+
+    // setPages(newPages);
+    setChannels(newChannels);
 
     if (!device) return;
 
-    newPages.forEach((page) => {
-      const { params, randomize } = page;
-      if (!randomize) return;
+    newChannels.forEach((channel) => {
+      const channelPages = channel.pages;
 
-      params.forEach((param) => {
-        const { cc, value } = param;
-        device.sendControlChange(cc, value, channel);
+      channelPages.forEach((channelPage) => {
+        const { params } = channelPage;
+        const pageConfig = pages.find((p) => p.name === channelPage.name);
+        const randomizePage = pageConfig.randomize;
+        if (!randomizePage) return;
+
+        params.forEach((param) => {
+          const { cc, value } = param;
+          device.sendControlChange(cc, value, channel.number);
+        });
       });
     });
   };

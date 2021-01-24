@@ -38,7 +38,7 @@ const defaultPages = [
       { name: 'Overdrive', cc: 81, randomize: true },
       { name: 'Delay Send', cc: 82, min: 0, max: 30, randomize: true },
       { name: 'Reverb Send', cc: 83, min: 0, max: 30, randomize: true },
-      { name: 'Pan', cc: 10, min: 0, max: 127, randomize: false, value: 64 },
+      { name: 'Pan', cc: 10, min: 0, max: 127, value: 64, randomize: false },
     ],
   },
   {
