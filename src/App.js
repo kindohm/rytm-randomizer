@@ -2,6 +2,7 @@ import * as WebMidi from 'webmidi';
 import React, { useEffect, useState } from 'react';
 import Pages from './Pages';
 import defaultPages from './defaultPages';
+import Footer from './Footer';
 import './App.css';
 
 const App = () => {
@@ -9,7 +10,7 @@ const App = () => {
   const [deviceOptions, setDeviceOptions] = useState([]);
   const [device, setDevice] = useState(null);
   const [showAdvanced, setShowAdvanced] = useState(false);
-  const [intensity, setIntensity] = useState(0.333);
+  const [intensity, setIntensity] = useState(0.666);
   const [pages, setPages] = useState(defaultPages);
 
   useEffect(() => {
@@ -61,7 +62,7 @@ const App = () => {
       });
       return { ...page, params: newParams };
     });
-    console.log(newPages);
+
     setPages(newPages);
 
     if (!device) return;
@@ -91,7 +92,6 @@ const App = () => {
   };
 
   const handleParamToggled = (pageName, param, enabled) => {
-    console.log('pageName', pageName);
     const foundPage = pages.find((p) => p.name === pageName);
     const { params } = foundPage;
     const foundParam = params.find((p) => p.name === param.name);
@@ -114,6 +114,7 @@ const App = () => {
 
   return (
     <div>
+      <h1>Elektron Analog RYTM Randoimzer</h1>
       <div className="container">
         <p>Select your RYTM MIDI device:</p>
         <select onChange={handleDeviceChange} className="deviceSelect">
@@ -128,9 +129,11 @@ const App = () => {
       </div>
 
       <div className="container">
+        <p>Randomization complexity:</p>
         <p>
           <input
             type="range"
+            value={intensity}
             min="0"
             max="1"
             step="0.01"
@@ -159,6 +162,8 @@ const App = () => {
           />
         </div>
       ) : null}
+
+      <Footer></Footer>
     </div>
   );
 };
