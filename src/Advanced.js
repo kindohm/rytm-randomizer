@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Pages from './Pages';
+import './Advanced.css';
 
 const Advanced = ({ pages, onParamToggled, onPageToggled }) => {
   const [showAdvanced, setShowAdvanced] = useState(false);
