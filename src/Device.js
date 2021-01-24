@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './Device.css';
 import * as WebMidi from 'webmidi';
 
-const Device = ({ onDeviceChange }) => {
+const Device = ({ onDeviceChange, onNotSupported }) => {
   const [devices, setDevices] = useState([]);
   const [deviceOptions, setDeviceOptions] = useState([]);
 
@@ -10,9 +10,10 @@ const Device = ({ onDeviceChange }) => {
     WebMidi.enable((err) => {
       if (err) {
         console.log('WebMidi could not be enabled.', err);
+        onNotSupported();
         return;
       }
-      const options = [{ value: '', name: '' }].concat(
+      const options = [{ value: '', name: 'No device selected' }].concat(
         WebMidi.outputs.map((output) => ({
           value: output.name,
           name: output.name,

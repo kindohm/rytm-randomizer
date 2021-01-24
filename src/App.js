@@ -1,24 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import defaultPages from './defaultPages';
-import Footer from './Footer';
-import './App.css';
-import Complexity from './Complexity';
 import Advanced from './Advanced';
+import Complexity from './Complexity';
 import Device from './Device';
+import Footer from './Footer';
+import NotSupported from './NotSupported';
+import Randomize from './Randomize';
+import './App.css';
 
 const App = () => {
   const [device, setDevice] = useState(null);
   const [complexity, setComplexity] = useState(0.666);
   const [pages, setPages] = useState(defaultPages);
+  const [notSupported, setNotSupported] = useState(false);
 
   const handleDeviceChange = (newDevice) => {
     setDevice(newDevice);
   };
 
   const getRandomIntInclusive = (min, max) => {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1) + min);
+    const minCeil = Math.ceil(min);
+    const maxFloor = Math.floor(max);
+    return Math.floor(Math.random() * (maxFloor - minCeil + 1) + minCeil);
   };
 
   const randomizeParam = (absoluteMin, absoluteMax, currentValue) => {
@@ -87,29 +90,37 @@ const App = () => {
     setComplexity(parseFloat(e.target.value));
   };
 
+  const handleOnNotSupported = () => {
+    setNotSupported(true);
+  };
+
   return (
     <div className="mainContainer">
       <h1>RYTM Randomizer</h1>
 
-      <Device onDeviceChange={handleDeviceChange} />
+      {notSupported ? (
+        <NotSupported />
+      ) : (
+        <div>
+          <Device
+            onDeviceChange={handleDeviceChange}
+            onNotSupported={handleOnNotSupported}
+          />
 
-      <div className="container">
-        <button className="randomizeButton" onClick={handleRandomize}>
-          Randomize
-        </button>
-      </div>
+          <Randomize onRandomize={handleRandomize} disabled={!device} />
 
-      <Complexity
-        onComplexityChange={handleComplexityChange}
-        complexity={complexity}
-      />
+          <Complexity
+            onComplexityChange={handleComplexityChange}
+            complexity={complexity}
+          />
 
-      <Advanced
-        pages={pages}
-        onParamToggled={handleParamToggled}
-        onPageToggled={handlePageToggled}
-      />
-
+          <Advanced
+            pages={pages}
+            onParamToggled={handleParamToggled}
+            onPageToggled={handlePageToggled}
+          />
+        </div>
+      )}
       <Footer></Footer>
     </div>
   );
