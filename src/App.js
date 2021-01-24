@@ -4,13 +4,14 @@ import Pages from './Pages';
 import defaultPages from './defaultPages';
 import Footer from './Footer';
 import './App.css';
+import Complexity from './Complexity';
 
 const App = () => {
   const [devices, setDevices] = useState([]);
   const [deviceOptions, setDeviceOptions] = useState([]);
   const [device, setDevice] = useState(null);
   const [showAdvanced, setShowAdvanced] = useState(false);
-  const [intensity, setIntensity] = useState(0.666);
+  const [complexity, setComplexity] = useState(0.666);
   const [pages, setPages] = useState(defaultPages);
 
   useEffect(() => {
@@ -43,8 +44,8 @@ const App = () => {
   };
 
   const randomizeParam = (absoluteMin, absoluteMax, currentValue) => {
-    const min = currentValue - (currentValue - absoluteMin) * intensity;
-    const max = currentValue + (absoluteMax - currentValue) * intensity;
+    const min = currentValue - (currentValue - absoluteMin) * complexity;
+    const max = currentValue + (absoluteMax - currentValue) * complexity;
     const value = getRandomIntInclusive(min, max);
     return value;
   };
@@ -108,8 +109,8 @@ const App = () => {
     setShowAdvanced(!showAdvanced);
   };
 
-  const handleIntensityChange = (e) => {
-    setIntensity(parseFloat(e.target.value));
+  const handleComplexityChange = (e) => {
+    setComplexity(parseFloat(e.target.value));
   };
 
   return (
@@ -134,19 +135,10 @@ const App = () => {
         </button>
       </div>
 
-      <div className="container">
-        <p>Randomization complexity:</p>
-        <p>
-          <input
-            type="range"
-            value={intensity}
-            min="0"
-            max="1"
-            step="0.01"
-            onChange={handleIntensityChange}
-          />
-        </p>
-      </div>
+      <Complexity
+        onComplexityChange={handleComplexityChange}
+        complexity={complexity}
+      />
 
       <div className="container">
         <button className="linkButton" onClick={handleAdvancedToggle}>
