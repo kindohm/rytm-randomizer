@@ -1,7 +1,12 @@
 {
   "name": "rytm-randomizer",
   "homepage": "https://kindohm.github.io/rytm-randomizer",
-  "version": "0.1.0",
+  "author": {
+    "name": "Mike Hodnick",
+    "email": "mike@kindohm.com",
+    "url": "http://kindohm.com/"
+  },
+  "version": "1.0.0",
   "private": false,
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
