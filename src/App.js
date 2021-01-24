@@ -17,12 +17,19 @@ const getInitialChannels = (pages) => {
   });
 };
 
+const getInitialChannelsConfig = () => {
+  return getInitialChannels().map((c) => ({ ...c, randomize: true }));
+};
+
 const App = () => {
   const [device, setDevice] = useState(null);
   const [complexity, setComplexity] = useState(0.666);
   const [pages, setPages] = useState(defaultPages);
   const [notSupported, setNotSupported] = useState(false);
   const [channels, setChannels] = useState(getInitialChannels(defaultPages));
+  const [channelsConfig, setChannelsConfig] = useState(
+    getInitialChannelsConfig()
+  );
 
   const handleDeviceChange = (newDevice) => {
     setDevice(newDevice);
@@ -43,6 +50,11 @@ const App = () => {
 
   const handleRandomize = () => {
     const newChannels = channels.map((channel) => {
+      const channelConfig = channelsConfig.find(
+        (c) => c.number === channel.number
+      );
+      if (!channelConfig.randomize) return channel;
+
       const channelPages = channel.pages;
       const newPages = channelPages.map((channelPage) => {
         const pageConfig = pages.find((p) => p.name === channelPage.name);
@@ -67,19 +79,6 @@ const App = () => {
       return { ...channel, pages: newPages };
     });
 
-    // const newPages = pages.map((page) => {
-    //   const { params, randomize } = page;
-    //   if (!randomize) return page;
-    //   const newParams = params.map((param) => {
-    //     const { min = 0, max = 127, randomize, value = 64 } = param;
-    //     if (!randomize) return param;
-    //     const newValue = randomizeParam(min, max, value);
-    //     return { ...param, value: newValue };
-    //   });
-    //   return { ...page, params: newParams };
-    // });
-
-    // setPages(newPages);
     setChannels(newChannels);
 
     if (!device) return;
@@ -135,6 +134,15 @@ const App = () => {
     setNotSupported(true);
   };
 
+  const handleChannelToggled = (channelNumber) => {
+    const newChannelsConfig = channelsConfig.map((channel) =>
+      channel.number !== channelNumber
+        ? channel
+        : { ...channel, randomize: !channel.randomize }
+    );
+    setChannelsConfig(newChannelsConfig);
+  };
+
   return (
     <div className="mainContainer">
       <h1>RYTM Randomizer</h1>
@@ -157,8 +165,10 @@ const App = () => {
 
           <Advanced
             pages={pages}
+            channels={channelsConfig}
             onParamToggled={handleParamToggled}
             onPageToggled={handlePageToggled}
+            onChannelToggled={handleChannelToggled}
           />
         </div>
       )}

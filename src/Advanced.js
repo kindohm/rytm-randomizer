@@ -2,7 +2,13 @@ import React, { useState } from 'react';
 import Pages from './Pages';
 import './Advanced.css';
 
-const Advanced = ({ pages, onParamToggled, onPageToggled }) => {
+const Advanced = ({
+  pages,
+  channels,
+  onParamToggled,
+  onPageToggled,
+  onChannelToggled,
+}) => {
   const [showAdvanced, setShowAdvanced] = useState(false);
 
   const handleAdvancedToggle = () => {
@@ -20,7 +26,9 @@ const Advanced = ({ pages, onParamToggled, onPageToggled }) => {
       {showAdvanced ? (
         <div className="container pagesContainer">
           <Pages
+            channels={channels}
             pages={pages}
+            onChannelToggled={onChannelToggled}
             onParamToggled={onParamToggled}
             onPageToggled={(pageName, enabled) =>
               onPageToggled(pageName, enabled)

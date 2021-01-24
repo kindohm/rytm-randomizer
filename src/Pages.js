@@ -1,7 +1,14 @@
 import Page from './Page';
+import ChannelPage from './ChannelPage';
 
-const Pages = ({ pages, onPageToggled, onParamToggled }) => {
-  return pages.map((page) => {
+const Pages = ({
+  pages,
+  channels,
+  onPageToggled,
+  onParamToggled,
+  onChannelToggled,
+}) => {
+  const pageComponents = pages.map((page) => {
     return (
       <Page
         key={page.name}
@@ -11,6 +18,15 @@ const Pages = ({ pages, onPageToggled, onParamToggled }) => {
       ></Page>
     );
   });
+
+  const allComponents = [
+    <ChannelPage
+      key="channelpage"
+      onChannelToggled={onChannelToggled}
+      channels={channels}
+    />,
+  ].concat(pageComponents);
+  return allComponents;
 };
 
 export default Pages;
