@@ -1,16 +1,15 @@
 import * as WebMidi from 'webmidi';
 import React, { useEffect, useState } from 'react';
-import Pages from './Pages';
 import defaultPages from './defaultPages';
 import Footer from './Footer';
 import './App.css';
 import Complexity from './Complexity';
+import Advanced from './Advanced';
 
 const App = () => {
   const [devices, setDevices] = useState([]);
   const [deviceOptions, setDeviceOptions] = useState([]);
   const [device, setDevice] = useState(null);
-  const [showAdvanced, setShowAdvanced] = useState(false);
   const [complexity, setComplexity] = useState(0.666);
   const [pages, setPages] = useState(defaultPages);
 
@@ -105,10 +104,6 @@ const App = () => {
     setPages(newPages);
   };
 
-  const handleAdvancedToggle = () => {
-    setShowAdvanced(!showAdvanced);
-  };
-
   const handleComplexityChange = (e) => {
     setComplexity(parseFloat(e.target.value));
   };
@@ -140,23 +135,11 @@ const App = () => {
         complexity={complexity}
       />
 
-      <div className="container">
-        <button className="linkButton" onClick={handleAdvancedToggle}>
-          {showAdvanced ? 'Hide advanced options' : 'Show advanced options'}
-        </button>
-      </div>
-
-      {showAdvanced ? (
-        <div className="container pagesContainer">
-          <Pages
-            pages={pages}
-            onParamToggled={handleParamToggled}
-            handlePageToggled={(pageName, enabled) =>
-              handlePageToggled(pageName, enabled)
-            }
-          />
-        </div>
-      ) : null}
+      <Advanced
+        pages={pages}
+        onParamToggled={handleParamToggled}
+        onPageToggled={handlePageToggled}
+      />
 
       <Footer></Footer>
     </div>
