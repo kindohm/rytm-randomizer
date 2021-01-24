@@ -1,7 +1,8 @@
+import './Footer.css';
+
 const Footer = () => {
   return (
     <div className="container">
-      <hr />
       <footer>
         <small>
           Developed by <a href="//kindohm.com">Mike Hodnick</a>. Inspired by the{' '}

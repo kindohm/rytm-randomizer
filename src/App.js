@@ -113,8 +113,8 @@ const App = () => {
   };
 
   return (
-    <div>
-      <h1>Elektron Analog RYTM Randoimzer</h1>
+    <div className="mainContainer">
+      <h1>RYTM Randomizer</h1>
       <div className="container">
         <p>Select your RYTM MIDI device:</p>
         <select onChange={handleDeviceChange} className="deviceSelect">
@@ -129,6 +129,12 @@ const App = () => {
       </div>
 
       <div className="container">
+        <button className="randomizeButton" onClick={handleRandomize}>
+          Randomize
+        </button>
+      </div>
+
+      <div className="container">
         <p>Randomization complexity:</p>
         <p>
           <input
@@ -140,9 +146,6 @@ const App = () => {
             onChange={handleIntensityChange}
           />
         </p>
-        <button className="randomizeButton" onClick={handleRandomize}>
-          Randomize
-        </button>
       </div>
 
       <div className="container">
