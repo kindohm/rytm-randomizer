@@ -77,7 +77,7 @@ const defaultPages = [
       { name: 'Time', cc: 16, randomize: true },
       { name: 'Pingpong', cc: 17, randomize: true },
       { name: 'Stereo Width', cc: 18, randomize: true },
-      { name: 'Feedback', cc: 19, randomize: true },
+      { name: 'Feedback', cc: 19, min: 0, max: 63, randomize: true },
       { name: 'Highpass', cc: 20, randomize: true },
       { name: 'Lowpass', cc: 21, randomize: true },
       { name: 'Reverb Send', cc: 22, randomize: true },
