@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/rytm-randomizer/static/css/main.70fa04e3.chunk.css",
-    "main.js": "/rytm-randomizer/static/js/main.46f2796b.chunk.js",
-    "main.js.map": "/rytm-randomizer/static/js/main.46f2796b.chunk.js.map",
+    "main.js": "/rytm-randomizer/static/js/main.ba0a7afe.chunk.js",
+    "main.js.map": "/rytm-randomizer/static/js/main.ba0a7afe.chunk.js.map",
     "runtime-main.js": "/rytm-randomizer/static/js/runtime-main.486c67e0.js",
     "runtime-main.js.map": "/rytm-randomizer/static/js/runtime-main.486c67e0.js.map",
     "static/js/2.0f99c155.chunk.js": "/rytm-randomizer/static/js/2.0f99c155.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.486c67e0.js",
     "static/js/2.0f99c155.chunk.js",
     "static/css/main.70fa04e3.chunk.css",
-    "static/js/main.46f2796b.chunk.js"
+    "static/js/main.ba0a7afe.chunk.js"
   ]
 }
