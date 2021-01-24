@@ -3,7 +3,7 @@ import './Complexity.css';
 const Complexity = ({ onComplexityChange, complexity }) => {
   return (
     <div className="container">
-      <p>Randomization complexity:</p>
+      <p>Degree of uncertainty:</p>
       <p>
         <input
           type="range"
