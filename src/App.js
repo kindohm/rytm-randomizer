@@ -9,16 +9,35 @@ import Randomize from './Randomize';
 import './App.css';
 
 const getInitialChannels = (pages) => {
-  return [...Array(12)].map((x, i) => {
+  const nonFxPages = pages
+    ? pages.filter((p) => !p.validChannels || !p.validChannels.includes(13))
+    : null;
+  const fxPages = pages
+    ? pages.filter((p) => p.validChannels && p.validChannels.includes(13))
+    : null;
+
+  const firstPart = [...Array(12)].map((x, i) => {
     return {
       number: i + 1,
-      pages,
+      name: i + 1,
+      pages: nonFxPages,
     };
   });
+
+  const all = firstPart.concat([
+    {
+      number: 13,
+      name: 'FX',
+      pages: fxPages,
+    },
+  ]);
+
+  return all;
 };
 
 const getInitialChannelsConfig = () => {
-  return getInitialChannels().map((c) => ({ ...c, randomize: true }));
+  const initial = getInitialChannels();
+  return initial.map((c) => ({ ...c, randomize: true }));
 };
 
 const App = () => {

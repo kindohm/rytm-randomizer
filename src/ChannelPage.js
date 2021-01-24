@@ -18,7 +18,7 @@ const ChannelPage = ({ channels, onChannelToggled }) => {
                   onChange={() => handleToggled(channel.number)}
                   checked={channel.randomize}
                 />{' '}
-                {channel.number}
+                {channel.name}
                 <span className="checkmark"></span>
               </label>
             </li>

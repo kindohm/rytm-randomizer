@@ -26,9 +26,3 @@ a:link,
 a:visited {
   color: #2196f3;
 }
-
-.pagesContainer {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-}

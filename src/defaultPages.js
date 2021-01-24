@@ -69,6 +69,35 @@ const defaultPages = [
       { name: 'Level', cc: 31, min: 0, max: 100, randomize: true },
     ],
   },
+  {
+    name: 'Delay',
+    randomize: true,
+    validChannels: [13],
+    params: [
+      { name: 'Time', cc: 16, randomize: true },
+      { name: 'Pingpong', cc: 17, randomize: true },
+      { name: 'Stereo Width', cc: 18, randomize: true },
+      { name: 'Feedback', cc: 19, randomize: true },
+      { name: 'Highpass', cc: 20, randomize: true },
+      { name: 'Lowpass', cc: 21, randomize: true },
+      { name: 'Reverb Send', cc: 22, randomize: true },
+      { name: 'Mix', cc: 23, randomize: true },
+    ],
+  },
+  {
+    name: 'Reverb',
+    randomize: true,
+    validChannels: [13],
+    params: [
+      { name: 'Pre Delay', cc: 24, randomize: true },
+      { name: 'Decay Time', cc: 25, randomize: true },
+      { name: 'Shelving Freq', cc: 26, randomize: true },
+      { name: 'Shelving Gain', cc: 27, randomize: true },
+      { name: 'Highpass', cc: 28, randomize: true },
+      { name: 'Lowpass', cc: 29, randomize: true },
+      { name: 'Mix', cc: 31, randomize: true },
+    ],
+  },
 ];
 
 export default defaultPages;
