@@ -1,39 +1,18 @@
-import * as WebMidi from 'webmidi';
 import React, { useEffect, useState } from 'react';
 import defaultPages from './defaultPages';
 import Footer from './Footer';
 import './App.css';
 import Complexity from './Complexity';
 import Advanced from './Advanced';
+import Device from './Device';
 
 const App = () => {
-  const [devices, setDevices] = useState([]);
-  const [deviceOptions, setDeviceOptions] = useState([]);
   const [device, setDevice] = useState(null);
   const [complexity, setComplexity] = useState(0.666);
   const [pages, setPages] = useState(defaultPages);
 
-  useEffect(() => {
-    WebMidi.enable((err) => {
-      if (err) {
-        console.log('WebMidi could not be enabled.', err);
-        return;
-      }
-      const options = [{ value: '', name: '' }].concat(
-        WebMidi.outputs.map((output) => ({
-          value: output.name,
-          name: output.name,
-        }))
-      );
-      setDevices(WebMidi.outputs);
-      setDeviceOptions(options);
-    });
-  });
-
-  const handleDeviceChange = (e) => {
-    const dev = devices.find((d) => d.name === e.target.value);
-    setDevice(dev);
-    console.log(dev);
+  const handleDeviceChange = (newDevice) => {
+    setDevice(newDevice);
   };
 
   const getRandomIntInclusive = (min, max) => {
@@ -111,18 +90,8 @@ const App = () => {
   return (
     <div className="mainContainer">
       <h1>RYTM Randomizer</h1>
-      <div className="container">
-        <p>Select your RYTM MIDI device:</p>
-        <select onChange={handleDeviceChange} className="deviceSelect">
-          {deviceOptions.map((device) => {
-            return (
-              <option key={device.name} value={device.value}>
-                {device.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
+
+      <Device onDeviceChange={handleDeviceChange} />
 
       <div className="container">
         <button className="randomizeButton" onClick={handleRandomize}>
