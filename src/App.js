@@ -72,13 +72,17 @@ const App = () => {
       const channelConfig = channelsConfig.find(
         (c) => c.number === channel.number
       );
-      if (!channelConfig.randomize) return channel;
+      if (!channelConfig.randomize) {
+        return channel;
+      }
 
       const channelPages = channel.pages;
       const newPages = channelPages.map((channelPage) => {
         const pageConfig = pages.find((p) => p.name === channelPage.name);
         const randomizePage = pageConfig.randomize;
-        if (!randomizePage) return channelPage;
+        if (!randomizePage) {
+          return channelPage;
+        }
         const channelPageParams = channelPage.params;
         const pageConfigParams = pageConfig.params;
 
@@ -100,21 +104,46 @@ const App = () => {
 
     setChannels(newChannels);
 
-    if (!device) return;
+    if (!device) {
+      console.log('no device');
+      return;
+    }
 
     newChannels.forEach((channel) => {
       const channelPages = channel.pages;
+      const channelConfig = channelsConfig.find(
+        (c) => c.number === channel.number
+      );
+      if (!channelConfig.randomize) {
+        return;
+      }
 
       channelPages.forEach((channelPage) => {
         const { params } = channelPage;
         const pageConfig = pages.find((p) => p.name === channelPage.name);
         const randomizePage = pageConfig.randomize;
-        if (!randomizePage) return;
+        if (!randomizePage) {
+          return;
+        }
 
-        params.forEach((param) => {
+        // this is one of the grossest things I've ever done, but
+        // it appears that WebMIDI or the RYTM don't like
+        // all of the CC's being sent at once (there are over 500).
+        // setTimeout is used here to space out each CC message by
+        // one millisecond.
+        const sendCC = (params, index) => {
+          const param = params[index];
           const { cc, value } = param;
           device.sendControlChange(cc, value, channel.number);
-        });
+
+          if (index < params.length - 1) {
+            setTimeout(() => {
+              sendCC(params, index + 1);
+            }, 1);
+          }
+        };
+
+        sendCC(params, 0);
       });
     });
   };
