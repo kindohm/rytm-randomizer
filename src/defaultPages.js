@@ -81,7 +81,7 @@ const defaultPages = [
       { name: 'Highpass', cc: 20, randomize: true },
       { name: 'Lowpass', cc: 21, randomize: true },
       { name: 'Reverb Send', cc: 22, randomize: true },
-      { name: 'Mix', cc: 23, randomize: true },
+      { name: 'Mix', cc: 23, randomize: false },
     ],
   },
   {
@@ -95,7 +95,7 @@ const defaultPages = [
       { name: 'Shelving Gain', cc: 27, randomize: true },
       { name: 'Highpass', cc: 28, randomize: true },
       { name: 'Lowpass', cc: 29, randomize: true },
-      { name: 'Mix', cc: 31, randomize: true },
+      { name: 'Mix', cc: 31, randomize: false },
     ],
   },
 ];
