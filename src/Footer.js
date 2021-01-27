@@ -5,8 +5,16 @@ const Footer = () => {
     <div className="container">
       <footer>
         <small>
-          Developed by <a href="http://kindohm.com">kindohm</a>. Inspired by the{' '}
-          <a href="http://algorithmic-instruments.com/dsi-tempest-randomizer">
+          Developed by{' '}
+          <a href="http://kindohm.com" target="_blank" rel="noreferrer">
+            kindohm
+          </a>
+          . Inspired by the{' '}
+          <a
+            href="http://algorithmic-instruments.com/dsi-tempest-randomizer"
+            target="_blank"
+            rel="noreferrer"
+          >
             DSI Tempest Randomizer
           </a>
           .{' '}
