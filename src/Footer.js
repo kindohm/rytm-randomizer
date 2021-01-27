@@ -10,7 +10,11 @@ const Footer = () => {
             DSI Tempest Randomizer
           </a>
           .{' '}
-          <a href="https://github.com/kindohm/rytm-randomizer" target="_blank">
+          <a
+            href="https://github.com/kindohm/rytm-randomizer"
+            target="_blank"
+            rel="noreferrer"
+          >
             Source code
           </a>
           .
