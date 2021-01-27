@@ -9,6 +9,11 @@ const Footer = () => {
           <a href="http://algorithmic-instruments.com/dsi-tempest-randomizer">
             DSI Tempest Randomizer
           </a>
+          .{' '}
+          <a href="https://github.com/kindohm/rytm-randomizer" target="_blank">
+            Source code
+          </a>
+          .
         </small>
       </footer>
     </div>
